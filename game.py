@@ -68,6 +68,12 @@ class Game:
                 self.empty_squares.remove(move[1:])
                 self.empty_squares.add(self.square_algebric_notation(piece_to_move.position_x, piece_to_move.position_y))
                 piece_to_move.move(move[1:])
+            if (move[0].lower() == 'b'):
+                print("Bishop move")
+                piece_to_move:ChessPiece = self.list_of_pieces_able_to_move(move)[0]
+                self.empty_squares.remove(move[1:])
+                self.empty_squares.add(self.square_algebric_notation(piece_to_move.position_x, piece_to_move.position_y))
+                piece_to_move.move(move[1:])
 
 
         self.current_turn_for_white = not self.current_turn_for_white
@@ -171,6 +177,46 @@ class Game:
         return valid_moves
 
 
+
+
+
+    def get_all_valid_bishop_moves(self, piece:ChessPiece):
+        valid_moves = []
+
+
+        for i in range(8):
+            if (self.square_algebric_notation(piece.position_x+i, piece.position_y+i)) in self.empty_squares:
+                valid_moves.append(self.algebric_notation(piece, piece.position_x+i, piece.position_y+i))
+                self.valid_moves_by_piece[piece].append(self.algebric_notation(piece, piece.position_x+i, piece.position_y+i))
+            else:
+                break
+        for i in range(8):
+            if (self.square_algebric_notation(piece.position_x+i, piece.position_y-i)) in self.empty_squares:
+                valid_moves.append(self.algebric_notation(piece, piece.position_x+i, piece.position_y-i))
+                self.valid_moves_by_piece[piece].append(self.algebric_notation(piece, piece.position_x+i, piece.position_y-i))
+            else:
+                break
+
+        for i in range(8):
+            if (self.square_algebric_notation(piece.position_x-i, piece.position_y+i)) in self.empty_squares:
+                valid_moves.append(self.algebric_notation(piece, piece.position_x-i, piece.position_y+i))
+                self.valid_moves_by_piece[piece].append(self.algebric_notation(piece, piece.position_x-i, piece.position_y+i))
+            else:
+                break
+        for i in range(8):
+            if (self.square_algebric_notation(piece.position_x-i, piece.position_y-i)) in self.empty_squares:
+                valid_moves.append(self.algebric_notation(piece, piece.position_x-i, piece.position_y-i))
+                self.valid_moves_by_piece[piece].append(self.algebric_notation(piece, piece.position_x-i, piece.position_y-i))
+            else:
+                break
+
+        return valid_moves
+
+
+
+
+
+
     def get_all_valid_moves(self):
         valid_moves = []
 
@@ -193,6 +239,10 @@ class Game:
                     for move in self.get_all_valid_rook_moves(piece):
                         valid_moves.append(move)
 
+                if piece.piece_type == "B":
+                    for move in self.get_all_valid_bishop_moves(piece):
+                        valid_moves.append(move)
+
 
 
         else:
@@ -211,6 +261,10 @@ class Game:
 
                 if piece.piece_type == "R":
                     for move in self.get_all_valid_rook_moves(piece):
+                        valid_moves.append(move)
+
+                if piece.piece_type == "B":
+                    for move in self.get_all_valid_bishop_moves(piece):
                         valid_moves.append(move)
 
 
