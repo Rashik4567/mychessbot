@@ -8,10 +8,12 @@ _PositionsY = Literal[1, 2, 3, 4, 5, 6, 7, 8]
 
 
 class ChessPiece:
-    def __init__(self, piece_type:_Types = "P", position_x:_PositionsX = 1, position_y:_PositionsY = 1):
+    def __init__(self, piece_type:_Types, position_x:_PositionsX, position_y:_PositionsY, isWhite=True):
 
-        self.type = piece_type
-        self.position = [position_x, position_y]
+        self.piece_type:str = piece_type
+        self.position_x:int = position_x
+        self.position_y:int = position_y
+        self.isWhite:bool = isWhite
 
         if not self._validate():
             raise InvalidPieceError(self.validation_message)
@@ -27,8 +29,16 @@ class ChessPiece:
         return []
 
     def move(self, position:str) -> bool:
+        self.position_x = ord(position[0].lower()) - 96
+        self.position_y = int(position[1])
         return True
 
     def capture(self, piece:Self) -> bool:
         return True
 
+
+    def __repr__(self) -> str:
+        if self.piece_type == "P":
+            return f"{chr(96+self.position_x)}{self.position_y}"
+        else:
+            return f"{self.piece_type.lower()}{chr(96+self.position_x)}{self.position_y}"

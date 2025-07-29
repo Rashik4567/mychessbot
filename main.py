@@ -1,25 +1,21 @@
 # Main file - just for running and keep my trash code hidden in an organized manner
-from engine import Engine
+# from engine import Engine
+from game import Game
 
-
-class Game:
-    def __init__(self):
-        pass
-    def next_move(self, move):
-        pass
-    def _is_finished(self):
-        return False
 
 
 def play_game():
     new_game = Game()
-    while not new_game._is_finished():
-        input_move = input("Your turn > ")
+    test_counter = 6
+    while not new_game.is_finished() and not test_counter < 1:
+        input_move = input("Your turn (use algebric notations) > ")
         new_game.next_move(input_move)
+        test_counter -= 1
 
+# This is the main run file if you want to run the engine standalone in a terminal.
 def main():
     """Main method of running the engine"""
-    current_engine = Engine()
+    # current_engine = Engine()
     # current_engine.run()
     play_game()
 
